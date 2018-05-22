@@ -1,5 +1,5 @@
 {
-  "name": "test-project",
+  "name": "movie-marathon",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,6 +8,8 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "lodash": "^4.17.10",
     "vue": "^2.5.16"
   },
   "devDependencies": {
