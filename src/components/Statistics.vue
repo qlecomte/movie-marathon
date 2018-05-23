@@ -1,7 +1,10 @@
 <template>
   <div>
-    <div class="duration"><span class="label">Durée totale</span> : {{duration.hours}}h {{duration.minutes}}min</div>
-    <dayPicker></dayPicker>
+    <div class="duration"><span class="label">Durée totale</span> : {{duration.days}}d {{duration.hours}}h {{duration.minutes}}min</div>
+    <div class="picker">
+      <DayPicker></DayPicker>
+      <TimePicker></TimePicker>
+    </div>
   </div>
 </template>
 
@@ -9,19 +12,23 @@
 <script>
 import _ from 'lodash'; 
 import WeekDayPicker from './picker/weekdayPicker.vue'
+import TimePicker from './picker/timePicker.vue'
 
 export default {
   name: 'Statistics',
   components: {
-    'dayPicker':WeekDayPicker,
+    'DayPicker':WeekDayPicker,
+    'TimePicker':TimePicker
   },
   props: ['movies'],
   computed:{
     duration: function () {
         const totalDuration = _.sumBy(this.movies, 'runtime');
-        const hours = totalDuration / 60;
+        const days = totalDuration / 1440;
+        const hours = totalDuration % 1440 / 60;
         const minutes = totalDuration % 60;
         return {
+            'days':"" + Math.floor(days),
             'hours':"" + Math.floor(hours),
             'minutes':minutes > 9 ? "" + minutes: "0" + minutes
         }
@@ -43,6 +50,25 @@ export default {
 
 .statistics .duration .label{
   font-weight: bold;
+}
+
+
+.picker {
+  display: flex;
+  padding-left: 0.5em;
+  padding-right: 0.5em; 
+}
+
+.day-picker, .time-picker{
+  margin-left: 0.5em;
+  margin-right: 0.5em; 
+}
+
+.day-picker {
+  flex: 1;
+}
+
+.time-picker {
 }
 
 

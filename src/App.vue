@@ -49,11 +49,11 @@ export default {
 }
 
 .movieList {
-  width: 100%;
+  flex:5;
 }
 
 .statistics {
-  width: 40%;
+  flex:2;
 }
 
 

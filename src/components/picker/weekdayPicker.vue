@@ -1,7 +1,9 @@
 <template>
-  <ul class="day-picker">
-    <li is="WeekDayItem" v-for="day in days" :key="day" :day="day" @toggleDay="toggleDay"></li>
-  </ul>
+  <div class="day-picker">
+    <ul class="weekDayPicker">
+      <li is="WeekDayItem" v-for="day in weekdays" :day="day" :selected="day===selected" :key="day" @toggleDay="toggleDay"></li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -14,25 +16,15 @@ export default {
   },
   data: function () {
     return {
-      weekdays:{
-        'Lun':false,
-        'Mar':false,
-        'Mer':false,
-        'Jeu':false,
-        'Ven':false,
-        'Sam':false,
-        'Dim':false
-      }
-    }
-  }, computed: {
-    days: function(){
-      return Object.keys(this.weekdays);
+      weekdays:['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'],
+      selected:''
     }
   }, methods: {
     toggleDay: function(day){
-      const idx = this.weekdays[day.label];
-      if (idx !== undefined){
-        this.weekdays[day.label] = day.selected;
+      if (!day.state){
+        this.selected = day.label;
+      } else {
+        this.selected = '';
       }
     }
   }
@@ -41,32 +33,40 @@ export default {
 
 <style scoped>
   .day-picker {
-    margin-bottom: 0.5em;
-    padding-left: 0;
+    display: flex;
   }
 
-  .day-picker li {
+  .weekDayPicker {
+    padding-left: 0;
+    flex: 1;
+    display: flex;
+  }
+
+  .weekDayPicker li {
     font-size: 0.8em;
+    flex: 1;
     display: inline-block;
     padding: 0.5em;
     color: #26A69A;
     cursor: pointer;
-    width: calc(100% / 7 - 1.61em);
     text-align: center;
     border: 1px solid;
     margin-right: -1px;
-    @include transition(all 0.3s ease);
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .day-picker li:first-child { border-radius: 5px 0 0 5px; }
-  .day-picker li:hover { 
+  .weekDayPicker li:first-child { border-radius: 5px 0 0 5px; }
+  .weekDayPicker li:hover { 
     background-color: #80CBC4;
     border: 1px solid #80CBC4; 
     color: white; 
   }
-  .day-picker li:last-child { border-radius: 0 5px 5px 0; }
+  .weekDayPicker li:last-child { border-radius: 0 5px 5px 0; }
   
-  .day-picker li.day-selected {
+  .weekDayPicker li.day-selected {
     background-color: #26A69A;
     border: 1px solid #26A69A;
     color: white;

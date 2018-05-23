@@ -5,12 +5,8 @@
 <script>
 export default {
   name:"weekDayItem",
-  props:['day'],
-  data: function () {
-    return {
-      selected: false
-    }
-  }, computed:{
+  props:['day', 'selected'],
+  computed:{
     daySelected:function(){
       return {
         "day-selected": this.selected
@@ -18,8 +14,7 @@ export default {
     }
   }, methods: {
     toggleDay: function() {
-      this.selected = !this.selected;
-      this.$emit("toggleDay", {label: this.day, selected: this.selected});
+      this.$emit("toggleDay", {label: this.day, state: this.selected});
     }
   }
 }
