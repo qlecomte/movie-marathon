@@ -11,13 +11,14 @@ import WeekDayItem from './weekdayItem.vue'
 
 export default {
   name: 'weekDayPicker',
+  props: ['defaultDay'],
   components: {
     'WeekDayItem':WeekDayItem
   },
   data: function () {
     return {
       weekdays:['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'],
-      selected:''
+      selected: this.defaultDay || '',
     }
   }, methods: {
     toggleDay: function(day){
@@ -26,6 +27,8 @@ export default {
       } else {
         this.selected = '';
       }
+
+      this.$emit('daySelected', this.selected);
     }
   }
 }

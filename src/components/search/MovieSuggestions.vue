@@ -22,7 +22,7 @@ export default {
   }, 
   computed:{
     movies:function(){
-      return this.suggestions.slice(0,6);
+      return this.suggestions.slice(0,8);
     }
   }, 
   methods:{
@@ -38,14 +38,14 @@ export default {
 
 .suggestions{
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-evenly;
   box-sizing: border-box;
 }
 
 .suggestion{
   margin-left: 4px;
   margin-right: 4px;
-  flex-shrink: 1;
+  flex-grow: 1;
 }
 
 .suggestion:first-child{

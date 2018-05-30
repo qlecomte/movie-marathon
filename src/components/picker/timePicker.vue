@@ -1,15 +1,27 @@
 <template>
   <div class="time-picker">
-    <div class="hours">13</div>
-    <div class="minutes">15</div>
+    <div class="hours">{{hours}}</div>
+    <div class="minutes">{{minutes}}</div>
+    <!-- <button id="show-modal" @click="show()">Show Modal</button> -->
+    <!-- <modal name="hello-world">
+      <div class="modal">
+        <h2 class="title">Sélectionnez votre heure de début</h2>
+        <div class="body"></div>
+        <div class="button" @click="hide()">VALIDER</div></div>
+    </modal> -->
   </div>
 </template>
 
 <script>
-
 export default {
   name:"timePicker",
-  props:["hours", "minutes"]
+  props:{
+    "hours":{
+      default:12
+    }, "minutes":{
+      default:0
+    }
+  }
 } 
 </script>
 
