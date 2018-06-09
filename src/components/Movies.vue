@@ -2,17 +2,32 @@
   <div class="container">
     <SearchBar class="searchBar" @search="search" placeholder="Find your next movie"/>
     <Suggestions class="suggestions" :suggestions="suggestions" @addMovie="addMovie"/>
-    <Movie 
+
+    <div class="drag-list">
+      <Draggable :list="movies" :options="{handle:'.handle'}">
+        <Movie 
+          class="movie"
+          v-for="movie in movies" 
+          :movie="movie"
+          :key="movie.id"
+          @remove="removeMovie">
+        </Movie>
+        <!-- <div v-for="movie in movies">{{movie.title}}</div> -->
+      </Draggable>
+    </div>
+    <!-- <Movie 
+      class="movie"
       v-for="movie in movies" 
       :movie="movie"
       :key="movie.id"
       @remove="removeMovie">
-    </Movie>
+    </Movie> -->
   </div>
 </template>
 
 <script>
-import _ from 'lodash'; 
+import _ from 'lodash'
+import Draggable from 'vuedraggable'
 
 import SearchBar from './search/SearchBar.vue'
 import Movie from './Movie.vue'
@@ -23,13 +38,19 @@ export default {
   components: {
     'SearchBar':SearchBar,
     'Movie':Movie,
-    'Suggestions':Suggestions
+    'Suggestions':Suggestions,
+    'Draggable':Draggable
   },props:[
     "movies"
   ],
   data: function () {
     return {
       suggestions:[],
+      list:[
+        {name:"John"}, 
+        {name:"Joao"}, 
+        {name:"Jean"} 
+      ]
     }
   },
   methods:{

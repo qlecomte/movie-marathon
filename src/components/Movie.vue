@@ -1,6 +1,6 @@
 <template>
   <div class="movie">
-
+    <i class="handle fa fa-bars"></i>
     <img class="image" :src="image" alt="Movie poster"/>
 
     <div class="details">
@@ -97,6 +97,11 @@ export default {
 }
 
 .movie .close {
+  font-size: 24px;
+}
+
+.movie .handle {
+  margin: auto 8px;
   font-size: 24px;
 }
 
