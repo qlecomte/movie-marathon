@@ -2,7 +2,7 @@
     <div class="suggestions">
       <Suggestion 
         class="suggestion"
-        v-for="movie in movies"  
+        v-for="movie in firstSuggestions"  
         :movie="movie" 
         :key="movie.id"
         @addMovie="addMovie"/>
@@ -15,13 +15,14 @@ import Suggestion from './Suggestion.vue'
 export default {
   name: 'MovieSuggestions',
   components: {
-    'Suggestion': Suggestion
+    'Suggestion': Suggestion,
   },
   props: {
-    suggestions: Array
+    suggestions: Array,
+    movies: Array
   }, 
   computed:{
-    movies:function(){
+    firstSuggestions:function(){
       return this.suggestions.slice(0,8);
     }
   }, 

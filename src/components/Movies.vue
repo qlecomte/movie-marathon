@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <SearchBar class="searchBar" @search="search" placeholder="Find your next movie"/>
-    <Suggestions class="suggestions" :suggestions="suggestions" @addMovie="addMovie"/>
+    <Suggestions class="suggestions" :suggestions="suggestions" :movies="movies" @addMovie="addMovie"/>
 
     <div class="drag-list">
       <Draggable :list="movies" :options="{handle:'.handle'}">
@@ -12,16 +12,8 @@
           :key="movie.id"
           @remove="removeMovie">
         </Movie>
-        <!-- <div v-for="movie in movies">{{movie.title}}</div> -->
       </Draggable>
     </div>
-    <!-- <Movie 
-      class="movie"
-      v-for="movie in movies" 
-      :movie="movie"
-      :key="movie.id"
-      @remove="removeMovie">
-    </Movie> -->
   </div>
 </template>
 
@@ -45,12 +37,7 @@ export default {
   ],
   data: function () {
     return {
-      suggestions:[],
-      list:[
-        {name:"John"}, 
-        {name:"Joao"}, 
-        {name:"Jean"} 
-      ]
+      suggestions:[]
     }
   },
   methods:{
@@ -61,7 +48,11 @@ export default {
         this.suggestions = data.results;
       }
     }, addMovie: function(movie) {
-      this.movies.push(movie);
+      if (!_.some(this.movies, {id:movie.id})){
+        this.movies.push(movie);
+      } else {
+        console.info('Movie already added');
+      }
     }, removeMovie: function(movieId) {
       const index = _.findIndex(this.movies, function(movie){
         return movie.id == movieId;
