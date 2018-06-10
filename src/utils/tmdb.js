@@ -6,11 +6,16 @@ function getMovie(movieId) {
 	return axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=fr-FR`)
 }
 
+function getCollection(collectionId) {
+	return axios.get(`https://api.themoviedb.org/3/collection/${collectionId}?api_key=${apiKey}&language=fr-FR`)
+}
+
 function search(query){
 	return axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=fr-FR&query=${query}&page=1`)
 }
 
 export default {
 	getMovie: getMovie,
+	getCollection: getCollection,
 	search: search
 }
