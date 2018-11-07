@@ -1,13 +1,25 @@
 <template>
   <div>
     <div class="time-picker" @click="show()">
-      <div class="hours">{{hours}}</div>
-      <div class="minutes">{{minutes}}</div>
+      <div class="hours">{{h | twoDigits}}</div>
+      <div class="minutes">{{m | twoDigits}}</div>
     </div>
     <modal name="hello-world">
       <div class="modal">
         <h2 class="title">Sélectionnez votre heure de début</h2>
-        <div class="body">Hello World</div>
+        <div class="body">
+          <div class="time-selector">
+            <div class="hours">
+              <div class="arrow-up fa fa-chevron-up" @click="changeTime('hours', 'up')"></div>
+              <div class="value">{{h | twoDigits}}</div>
+              <div class="arrow-down fa fa-chevron-down" @click="changeTime('hours', 'down')"></div>
+            </div>
+            <div class="minutes">
+              <div class="arrow-up fa fa-chevron-up" @click="changeTime('minutes', 'up')"></div>
+              <div class="value">{{m | twoDigits}}</div>
+              <div class="arrow-down fa fa-chevron-down" @click="changeTime('minutes', 'down')"></div></div>
+          </div>
+        </div>
         <div class="button" @click="confirm()">VALIDER</div></div>
     </modal>
   </div>
@@ -21,13 +33,22 @@ Vue.use(VModal)
 
 export default {
   name:"timePicker",
-  props:{
+  data: function(){
+    return {
+      h: this.hours,
+      m: this.minutes
+    }
+  }, props:{
     "hours":{
+      type: Number,
       default:12
     }, "minutes":{
+      type: Number,
       default:0
+    }, "minutesIncrement":{
+      default:1
     }
-  },methods: {
+  }, methods: {
     show () {
       this.$modal.show('hello-world');
     },
@@ -36,8 +57,31 @@ export default {
     }, 
     confirm () {
       this.$modal.hide('hello-world');
+      this.$emit("pick-time", {hours: this.h, minutes: this.m});
+    }, 
+    changeTime (type, direction) {
+      if (type === 'hours'){
+        if (direction === 'up'){
+          this.h++;
+        } else if (direction === 'down'){
+          this.h--;
+        }
+      } else if (type === 'minutes'){
+        if (direction === 'up'){
+          this.m += this.minutesIncrement;
+        } else if (direction === 'down'){
+          this.m -= this.minutesIncrement;
+        }
+      }
+
+      this.h = (this.h + 24) % 24;
+      this.m = (this.m + 60) % 60;
     }
-  }
+  }, filters: {
+    twoDigits: function (value) {
+      return value.toString().padStart(2, "0")
+    }
+}
 } 
 </script>
 
@@ -94,6 +138,29 @@ export default {
   .modal .button:hover{
     background-color: #26A69A;
   }
+
+  .time-selector{
+    display: flex;
+    padding: 0 25%;
+    justify-content: center;
+  }
+
+  .time-selector .hours, .time-selector .minutes{
+    color: #26A69A;
+    font-size: 26px;
+    width: 80px;
+    border: 1px solid;
+    margin-right: -1px;
+  }
+
+  .time-selector .hours{
+    border-radius: 12px 0 0 12px;
+  }
+
+  .time-selector .minutes{
+    border-radius: 0 12px 12px 0;
+  }
+
 
 </style>
 

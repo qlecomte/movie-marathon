@@ -3,7 +3,7 @@
     <div class="duration"><span class="label">Durée totale</span> : {{duration.days}}d {{duration.hours}}h {{duration.minutes}}min</div>
     <div class="picker">
       <DayPicker @daySelected="daySelected" :defaultDay="today.weekday"></DayPicker>
-      <TimePicker :hours="today.hours" :minutes="today.minutes"></TimePicker>
+      <TimePicker :hours="today.hours" :minutes="today.minutes" :minutesIncrement="timeInterval" @pick-time="pickTime"></TimePicker>
     </div>
 
     <Chronology :movies="movies" :datetime="today.now"></Chronology>
@@ -25,6 +25,12 @@ moment.locale('fr', {
 
 export default {
   name: 'Statistics',
+  data: function(){
+    return{
+      now: moment(),
+      timeInterval: 5
+    }
+  },
   components: {
     'DayPicker':WeekDayPicker,
     'TimePicker':TimePicker,
@@ -33,15 +39,11 @@ export default {
   props: ['movies'],
   computed:{
     today: function() {
-      var interval = 10
-      var minutesToAdd = interval - moment().minute() % interval;
-      var now = moment().add(minutesToAdd, 'minutes');
-
       return {
-        now: now.toDate(),
-        weekday: now.format('ddd'),
-        hours: now.hour().toString().padStart(2, "0"),
-        minutes: now.minute().toString().padStart(2, "0")
+        now: this.now.toDate(),
+        weekday: this.now.format('ddd'),
+        hours: this.now.hour(),
+        minutes: this.now.minute()
       }
     },
     duration: function () {
@@ -58,6 +60,8 @@ export default {
   }, methods: {
     daySelected: function(day){
       console.info("Day is " + day);
+    }, pickTime: function(time){
+      this.now = moment().hours(time.hours).minutes(time.minutes).seconds(0);
     }
   }
 }

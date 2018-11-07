@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
-
   <div class="flexContainer">
     <MovieList class="movieList" :movies="movies"></MovieList>
     <Statistics class="statistics" :movies="movies"></Statistics>
